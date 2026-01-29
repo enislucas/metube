@@ -1,10 +1,8 @@
+# 1. Use the official MeTube image
 FROM ghcr.io/alexta69/metube:latest
 
-WORKDIR /app
+# 2. Copy your local cookies.txt into the container at /app/cookies.txt
+COPY cookies.txt /app/cookies.txt
 
-# Copy our script into the image
-COPY wrapper.sh /app/wrapper.sh
-RUN chmod +x /app/wrapper.sh
-
-# Run our script when the container starts
-ENTRYPOINT ["/sbin/tini", "-g", "--", "/app/wrapper.sh"]
+# 3. (Optional) Set the environment variable automatically so you don't have to do it in Railway
+ENV YTDL_OPTIONS='{"cookiefile":"/app/cookies.txt"}'
